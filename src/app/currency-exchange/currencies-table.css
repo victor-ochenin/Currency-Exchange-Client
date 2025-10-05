@@ -1,0 +1,18 @@
+
+.currencies-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 14pt;
+}
+
+.currencies-table th, .currencies-table td {
+    border: 2px solid #333;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.currencies-table th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+}

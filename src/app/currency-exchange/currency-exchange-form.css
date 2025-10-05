@@ -1,0 +1,39 @@
+.currency-exchange-form {
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.currency-exchange-form h2 {
+    margin-bottom: 8px;
+    margin-top: 0;
+    color: #333;
+    font-size: 18pt;
+}
+
+.currency-exchange-form div {
+    margin-bottom: 15px;
+}
+
+.currency-exchange-form select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16pt;
+}
+
+.currency-exchange-form input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    font-size: 16pt;
+}
+
+.currency-exchange-form select:focus,
+.currency-exchange-form input[type="number"]:focus {
+    outline: none;
+    border-color: #0070f3;
+    box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.25);
+}
