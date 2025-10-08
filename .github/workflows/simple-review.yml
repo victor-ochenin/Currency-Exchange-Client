@@ -28,18 +28,26 @@ jobs:
       with:
         script: |
           const commit = context.payload.head_commit;
-          const files = commit.added.concat(commit.modified).concat(commit.removed);
+          if (!commit) {
+            console.log('No commit information available');
+            return;
+          }
+          
+          const added = commit.added || [];
+          const modified = commit.modified || [];
+          const removed = commit.removed || [];
+          const files = added.concat(modified).concat(removed);
           
           const comment = `## 🤖 Автоматический Code Review
           
           **📝 Информация о коммите:**
-          - **ID:** \`${commit.id.substring(0, 7)}\`
-          - **Автор:** ${commit.author.name}
-          - **Сообщение:** ${commit.message}
-          - **Время:** ${new Date(commit.timestamp).toLocaleString('ru-RU')}
+          - **ID:** \`${commit.id ? commit.id.substring(0, 7) : 'N/A'}\`
+          - **Автор:** ${commit.author ? commit.author.name : 'Unknown'}
+          - **Сообщение:** ${commit.message || 'No message'}
+          - **Время:** ${commit.timestamp ? new Date(commit.timestamp).toLocaleString('ru-RU') : 'N/A'}
           
           **📁 Измененные файлы:**
-          ${files.map(file => `- \`${file}\``).join('\n')}
+          ${files.length > 0 ? files.map(file => `- \`${file}\``).join('\n') : '- Нет измененных файлов'}
           
           **✅ Статус проверок:**
           - ESLint: Пройден
@@ -63,10 +71,14 @@ jobs:
           *Этот Issue создан автоматически при push в main ветку*`;
           
           // Создаем Issue для review
+          const title = commit.message ? 
+            `🔍 Code Review: ${commit.message.split('\n')[0]}` : 
+            '🔍 Code Review: Automatic Review';
+            
           github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            title: `🔍 Code Review: ${commit.message.split('\n')[0]}`,
+            title: title,
             body: comment,
             labels: ['code-review', 'automated', 'needs-review']
           });
